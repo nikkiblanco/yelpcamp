@@ -20,11 +20,10 @@ const reviewsRoutes = require('./routes/reviews.js');
 
 const MongoStore = require('connect-mongo');
 
-// const dbUrl = process.env.DB_URL;
-const localDbUrl = 'mongodb://127.0.0.1:27017/yelp-camp';
+const dbUrl = process.env.DB_URL || 'mongodb://127.0.0.1:27017/yelp-camp'
 
 const db = mongoose.connect;
-db(localDbUrl).then(() => {
+db(dbUrl).then(() => {
     console.log('MongoDB connected');
 }).catch((err) => {
     console.error('Connection error:', err);
@@ -41,9 +40,10 @@ app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(mongoSanitize());
 
+const secret = process.env.SECRET || secretstuff
 const store = MongoStore.create({
-    mongoUrl: localDbUrl,
-    secret: 'secretstuff',
+    mongoUrl: dbUrl,
+    secret,
     touchAfter: 24 * 60 * 60
 });
 
@@ -53,7 +53,7 @@ store.on("error", function (e) {
 
 const sessionConfig = {
     store,
-    secret: 'secretstuff',
+    secret,
     resave: false,
     saveUninitialized: true,
     cookie: {
