@@ -103,6 +103,7 @@ app.use(
                 "https://res.cloudinary.com/disahqe1x/", //SHOULD MATCH YOUR CLOUDINARY ACCOUNT! 
                 "https://images.unsplash.com/",
                 "https://api.maptiler.com/",
+                "https://cdn.pixabay.com"
             ],
             fontSrc: ["'self'", ...fontSrcUrls],
         },
